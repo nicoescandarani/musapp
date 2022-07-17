@@ -11,7 +11,13 @@
       <ul>
         <li *ngFor="let note of mus.notes; let i = index">
           <div class="note" [ngClass]="{'note--active': activeNote === i}">
-            <input #input type="text" maxlength="2" [value]="note" [(ngModel)]="mus.notes[i]">
+            <div class="select">
+              <button (click)="toggleMenu(i)" class="select__toggle">{{ mus.notes[i] }}</button>
+              <div [ngClass]="{'select__options--open': openMenu === i}" class="select__options">
+                <button (click)="changeValue(note, i)" *ngFor="let note of notesKeys" class="select__option">{{ note }}</button>
+              </div>
+            </div>
+            <!-- <input #input type="text" maxlength="2" [value]="note" [(ngModel)]="mus.notes[i]"> -->
           </div>
         </li>
       </ul>

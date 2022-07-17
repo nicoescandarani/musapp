@@ -71,6 +71,19 @@ h3 {
 }
 
 .muses {
+  &__buttons {
+    display: flex;
+    align-items: center;
+    
+    button {
+      margin-right: 20px;
+
+      &:last-of-type {
+        margin-right: 0;
+      }
+    }
+  }
+
   li {
     display: flex;
     align-items: center;
@@ -113,6 +126,15 @@ h3 {
       path {
         fill: white;
       }
+    }
+  }
+}
+
+.is-playing {
+  background-color: #45414f !important;
+  svg {
+    path {
+      fill: white;
     }
   }
 }

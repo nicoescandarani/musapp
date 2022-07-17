@@ -1,7 +1,9 @@
+import { Notes } from './../../enums/notes';
+import { SharedService } from './../../services/shared.service';
 import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
 import { Mus } from './../../interfaces/mus';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { MusService } from 'src/app/services/mus.service';
 import { Subscription } from 'rxjs';
 
@@ -19,8 +21,11 @@ export class CreatorComponent implements OnInit, OnDestroy {
   activeNote = -1;
   hola: any;
   userName!: string;
+  openMenu = -1;
+  notes = Notes;
+  notesKeys: string[] = Object.keys(Notes);
 
-  constructor(private musService: MusService, private auth: AuthService, private router: Router) { }
+  constructor(private musService: MusService, private auth: AuthService, private router: Router, private shared: SharedService) { }
 
   ngOnInit(): void {
     this.mus = this.initMus();
@@ -28,6 +33,11 @@ export class CreatorComponent implements OnInit, OnDestroy {
       this.userName = userName;
     });
     this.subscriptions.push(userNameSubscription$);
+    const noteSubscription$ = this.shared.activeNote.subscribe(note => {
+      this.activeNote = note;
+    });
+    this.subscriptions.push(noteSubscription$);
+
   }
 
   initMus(): Mus {
@@ -53,33 +63,11 @@ export class CreatorComponent implements OnInit, OnDestroy {
   }
 
   play(): void {
-    let i = 0;
-    this.playing = setInterval(() => {
-      this.activeNote = i;
-      console.log(this.activeNote);
-      
-      let useNote =  this.mus.notes[i].toUpperCase();
-      if (this.mus.notes[i].length > 1) {
-        const split = this.mus.notes[i].split('');
-        split[0] = split[0].toUpperCase();
-        const newNote = split.join('');
-        useNote = newNote;
-      }
-      const audio = new Audio(`./assets/notes/${useNote}.mp3`);
-      audio.play();
-      i++;
-      if (i === this.mus.notes.length) {
-        this.stop();
-      }
-    }, 700);
+    this.shared.play(this.mus);
   }
 
   stop(): void {
-    if (this.playing) {
-      clearInterval(this.playing);
-      this.playing = undefined;
-      this.activeNote = -1;
-    }
+    this.shared.stop();
   }
 
   save(): void {
@@ -93,6 +81,26 @@ export class CreatorComponent implements OnInit, OnDestroy {
 
   generateId(): string {
     return `mus${this.userName}${Date.now().toString()}`;
+  }
+
+  toggleMenu(i: number): void {
+    if (this.openMenu === i) {
+      this.openMenu = -1;
+      return;
+    }
+    this.openMenu = i;
+  }
+
+  changeValue(note: string, index: number): void {
+    this.mus.notes[index] = note;
+    this.openMenu = -1;
+  }
+
+  @HostListener('click', ['$event'])
+  onClick(event: MouseEvent): void {
+    if(!(event.target as HTMLElement).classList.contains('select__toggle') && this.openMenu !== -1) {
+      this.openMenu = -1;
+    }
   }
 
   ngOnDestroy(): void {

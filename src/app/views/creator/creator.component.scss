@@ -21,6 +21,44 @@ li {
   }
 }
 
+.select {
+  height: 100%;
+  width: 100%;
+  // padding: 10px;
+  background-color: #45414f;
+
+  button {
+    height: 100%;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    outline: none;
+  }
+
+  &__options {
+    z-index: 2;
+    max-height: 400px;
+    overflow: auto;
+    display: none;
+
+    &--open {
+      display: block;
+    }
+  }
+
+  &__option {
+    padding: 10px;
+    background-color: #45414f;
+    color: #fff;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #fff;
+      color: #45414f;
+    }
+  }
+}
+
 .mus-info {
   margin-bottom: 40px;
 }
@@ -33,7 +71,6 @@ li {
 .note {
   max-width: 50px;
   width: 100%;
-  padding: 10px;
   border: 1px solid black;
   height: 100px;
   display: flex;

@@ -32,11 +32,23 @@
       <ul>
         <li *ngFor="let mus of muses">
           <a [routerLink]="['/mus', mus.id]">{{ mus.title }}</a>
-          <button class="button" (click)="deleteMus(mus.id)" title="Delete Mus">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M5.43717 17.5C5.10384 17.5 4.81217 17.375 4.56217 17.125C4.31217 16.875 4.18717 16.5833 4.18717 16.25V4.375H3.33301V3.125H7.24967V2.5H12.7497V3.125H16.6663V4.375H15.8122V16.25C15.8122 16.5833 15.6872 16.875 15.4372 17.125C15.1872 17.375 14.8955 17.5 14.5622 17.5H5.43717ZM14.5622 4.375H5.43717V16.25H14.5622V4.375ZM7.64551 14.4583H8.89551V6.14583H7.64551V14.4583ZM11.1038 14.4583H12.3538V6.14583H11.1038V14.4583ZM5.43717 4.375V16.25V4.375Z" fill="black"/>
-            </svg>
-          </button>
+          <div class="muses__buttons">
+            <button *ngIf="!isPlaying || (musPlayingId | async) !== mus.id" class="button" (click)="playMus(mus)" title="Play Mus">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6.66699 15.7708V4.10413L15.8337 9.93746L6.66699 15.7708ZM7.91699 13.5L13.5212 9.93746L7.91699 6.37496V13.5Z" fill="black"/>
+              </svg>
+            </button>
+            <button *ngIf="isPlaying && (musPlayingId | async) === mus.id" [ngClass]="{'is-playing': isPlaying && (musPlayingId | async) === mus.id}" class="button" (click)="stopMus()" title="Stop Playing">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6.25 6.25V13.75V6.25ZM5 15V5H15V15H5ZM6.25 13.75H13.75V6.25H6.25V13.75Z" fill="black"/>
+              </svg>                
+            </button>
+            <button class="button" (click)="deleteMus(mus.id)" title="Delete Mus">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5.43717 17.5C5.10384 17.5 4.81217 17.375 4.56217 17.125C4.31217 16.875 4.18717 16.5833 4.18717 16.25V4.375H3.33301V3.125H7.24967V2.5H12.7497V3.125H16.6663V4.375H15.8122V16.25C15.8122 16.5833 15.6872 16.875 15.4372 17.125C15.1872 17.375 14.8955 17.5 14.5622 17.5H5.43717ZM14.5622 4.375H5.43717V16.25H14.5622V4.375ZM7.64551 14.4583H8.89551V6.14583H7.64551V14.4583ZM11.1038 14.4583H12.3538V6.14583H11.1038V14.4583ZM5.43717 4.375V16.25V4.375Z" fill="black"/>
+              </svg>
+            </button>
+          </div>
         </li>
       </ul>
     </div>
