@@ -1,0 +1,17 @@
+<nav class="nav">
+  <div class="nav__items">
+    <div class="nav-item">
+      <a routerLink="/" href="">Musapp</a>
+    </div>
+    <div class="nav-item">
+      <ul>
+        <li>
+          <a routerLink="/creator" href="">Creator</a>
+        </li>
+        <li *ngIf="user">
+          <span>{{ user }}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

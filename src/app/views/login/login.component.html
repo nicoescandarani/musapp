@@ -1,0 +1,11 @@
+<div class="view-wrapper">
+  <h2>{{ user.userName ? 'Login' : 'Register' }}</h2>
+  <form (submit)="user.userName ? login() : register()" [formGroup]="fg">
+    <div class="form-wrapper">
+      <label>User Name</label>
+      <input formControlName="userName" type="text">
+      <div *ngIf="userName?.invalid && (userName?.dirty || userName?.touched)" class="errors">User Name is invalid</div>
+    </div>
+    <button type="submit">Login</button>
+  </form>
+</div>

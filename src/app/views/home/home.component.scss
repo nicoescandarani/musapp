@@ -1,0 +1,118 @@
+h1 {
+  margin-bottom: 40px;
+}
+
+.message {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 40px;
+  
+  h2 {
+    margin-right: 20px;
+    margin-bottom: 40px;
+  }
+
+  &__input {
+    position: relative;
+    border: 1px solid black;
+    flex: 1;
+    height: 40px;
+  }
+
+  input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    border: none;
+    display: block;
+    border-radius: 0;
+    padding: 10px 8px;
+    padding-right: 48px;
+    font-size: 20px;
+    flex: 1;
+  }
+
+  button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 40px;
+    border: none;
+    border-left: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      background-color: transparent;
+    }
+
+    img {
+      height: 30px;
+    }
+  }
+
+  &--has-name {
+    justify-content: start;
+
+    h2 {
+      margin-bottom: 0;
+    }
+  }
+}
+
+h3 {
+  margin-bottom: 20px;
+}
+
+.muses {
+  li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+
+    button {
+      height: 40px;
+      width: 40px;
+
+      &:hover {
+        svg {
+          path {
+            fill: white;
+          }
+        }
+      }
+    }
+
+    img {
+      height: 20px;
+    }
+  }
+}
+
+.has-user-name {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.edit-button {
+  position: static !important;
+  border: 1px solid black !important;
+
+  &:hover {
+    background-color: #45414f !important;
+    svg {
+      path {
+        fill: white;
+      }
+    }
+  }
+}

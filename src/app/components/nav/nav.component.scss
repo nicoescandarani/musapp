@@ -1,0 +1,23 @@
+.nav {
+  padding: 10px 20px;
+
+  &__items {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+ul {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+li {
+  margin-right: 20px;
+
+  &:last-of-type {
+    margin-right: 0;
+  }
+}
