@@ -9,7 +9,7 @@
       <div *ngIf="userName" class="has-user-name">
         <button *ngIf="!editing" class="edit-button" (click)="editUserName()" title="Edit User Name">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3.75 16.2503H4.66667L13.8958 7.02116L12.9792 6.10449L3.75 15.3337V16.2503ZM16.5417 6.12533L13.875 3.45866L14.75 2.58366C14.9861 2.34755 15.2778 2.22949 15.625 2.22949C15.9722 2.22949 16.2639 2.34755 16.5 2.58366L17.4167 3.50033C17.6528 3.73644 17.7708 4.0281 17.7708 4.37533C17.7708 4.72255 17.6528 5.01421 17.4167 5.25033L16.5417 6.12533ZM15.6667 7.00032L5.16667 17.5003H2.5V14.8337L13 4.33366L15.6667 7.00032ZM13.4375 6.56283L12.9792 6.10449L13.8958 7.02116L13.4375 6.56283Z" fill="black"/>
+            <path d="M3.75 16.2503H4.66667L13.8958 7.02116L12.9792 6.10449L3.75 15.3337V16.2503ZM16.5417 6.12533L13.875 3.45866L14.75 2.58366C14.9861 2.34755 15.2778 2.22949 15.625 2.22949C15.9722 2.22949 16.2639 2.34755 16.5 2.58366L17.4167 3.50033C17.6528 3.73644 17.7708 4.0281 17.7708 4.37533C17.7708 4.72255 17.6528 5.01421 17.4167 5.25033L16.5417 6.12533ZM15.6667 7.00032L5.16667 17.5003H2.5V14.8337L13 4.33366L15.6667 7.00032ZM13.4375 6.56283L12.9792 6.10449L13.8958 7.02116L13.4375 6.56283Z" fill="#45414f"/>
           </svg>            
         </button>
         <div *ngIf="editing" class="message__input">
@@ -27,30 +27,48 @@
       </div>
     </div>
 
-    <h3 *ngIf="muses && muses.length > 0">My Muses</h3>
-    <div class="muses">
+    <h3>My Muses {{ muses.length > 0 ? '(' + muses.length + ')' : '' }}</h3>
+    <h4 *ngIf="muses.length < 1">Mmm, you don't seem to have any muses yet.</h4>
+    <div *ngIf="muses && muses.length > 0" class="muses">
       <ul>
         <li *ngFor="let mus of muses">
           <a [routerLink]="['/mus', mus.id]">{{ mus.title }}</a>
           <div class="muses__buttons">
             <button *ngIf="!isPlaying || (musPlayingId | async) !== mus.id" class="button" (click)="playMus(mus)" title="Play Mus">
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6.66699 15.7708V4.10413L15.8337 9.93746L6.66699 15.7708ZM7.91699 13.5L13.5212 9.93746L7.91699 6.37496V13.5Z" fill="black"/>
+                <path d="M6.66699 15.7708V4.10413L15.8337 9.93746L6.66699 15.7708ZM7.91699 13.5L13.5212 9.93746L7.91699 6.37496V13.5Z" fill="#45414f"/>
               </svg>
             </button>
             <button *ngIf="isPlaying && (musPlayingId | async) === mus.id" [ngClass]="{'is-playing': isPlaying && (musPlayingId | async) === mus.id}" class="button" (click)="stopMus()" title="Stop Playing">
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6.25 6.25V13.75V6.25ZM5 15V5H15V15H5ZM6.25 13.75H13.75V6.25H6.25V13.75Z" fill="black"/>
+                <path d="M6.25 6.25V13.75V6.25ZM5 15V5H15V15H5ZM6.25 13.75H13.75V6.25H6.25V13.75Z" fill="#45414f"/>
+              </svg>                
+            </button>
+            <button class="button" (click)="downloadMus(mus)" title="Download Mus">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4.58301 16.6667C4.24967 16.6667 3.95801 16.5417 3.70801 16.2917C3.45801 16.0417 3.33301 15.75 3.33301 15.4167V12.4375H4.58301V15.4167H15.4163V12.4375H16.6663V15.4167C16.6663 15.75 16.5413 16.0417 16.2913 16.2917C16.0413 16.5417 15.7497 16.6667 15.4163 16.6667H4.58301ZM9.99967 13.4792L5.97884 9.45837L6.87467 8.56254L9.37467 11.0625V3.33337H10.6247V11.0625L13.1247 8.56254L14.0205 9.45837L9.99967 13.4792Z" fill="#45414f"/>
               </svg>                
             </button>
             <button class="button" (click)="deleteMus(mus.id)" title="Delete Mus">
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5.43717 17.5C5.10384 17.5 4.81217 17.375 4.56217 17.125C4.31217 16.875 4.18717 16.5833 4.18717 16.25V4.375H3.33301V3.125H7.24967V2.5H12.7497V3.125H16.6663V4.375H15.8122V16.25C15.8122 16.5833 15.6872 16.875 15.4372 17.125C15.1872 17.375 14.8955 17.5 14.5622 17.5H5.43717ZM14.5622 4.375H5.43717V16.25H14.5622V4.375ZM7.64551 14.4583H8.89551V6.14583H7.64551V14.4583ZM11.1038 14.4583H12.3538V6.14583H11.1038V14.4583ZM5.43717 4.375V16.25V4.375Z" fill="black"/>
+                <path d="M5.43717 17.5C5.10384 17.5 4.81217 17.375 4.56217 17.125C4.31217 16.875 4.18717 16.5833 4.18717 16.25V4.375H3.33301V3.125H7.24967V2.5H12.7497V3.125H16.6663V4.375H15.8122V16.25C15.8122 16.5833 15.6872 16.875 15.4372 17.125C15.1872 17.375 14.8955 17.5 14.5622 17.5H5.43717ZM14.5622 4.375H5.43717V16.25H14.5622V4.375ZM7.64551 14.4583H8.89551V6.14583H7.64551V14.4583ZM11.1038 14.4583H12.3538V6.14583H11.1038V14.4583ZM5.43717 4.375V16.25V4.375Z" fill="#45414f"/>
               </svg>
             </button>
           </div>
         </li>
       </ul>
     </div>
+
+    <app-modal
+      *ngIf="showModal"
+      [message]="modalMessage"
+      (acceptEmmit)="acceptModal()"
+      (cancelEmmit)="cancelModal()"
+    ></app-modal>
+
+    <app-toast
+      *ngIf="showToast"
+      [message]="toastMessage"
+    ></app-toast>
   </div>
 </div>

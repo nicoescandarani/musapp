@@ -4,7 +4,7 @@ import { Mus } from './../../interfaces/mus';
 import { MusService } from 'src/app/services/mus.service';
 import { User } from './../../interfaces/user';
 import { AuthService } from './../../services/auth.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-home',
@@ -20,6 +20,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   isPlaying = false;
   musPlayingId!: Observable<string>;
+  showModal = false;
+  modalMessage = 'Are you sure you want to delete this mus?';
+  musIdToDelete!: string;
+  showToast = false;
+  toastMessage = '';
+  toastTimeout: any;
 
   constructor(private auth: AuthService, private musService: MusService, private shared: SharedService) {
     this.musPlayingId = this.shared.musPlayingId;
@@ -45,8 +51,16 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.editing = false;
   }
 
+  downloadMus(mus: Mus) {
+    const fileName = this.shared.generateFileName(mus.title);
+    const file = this.shared.generateFile(mus, 'application/json', 'json', fileName);
+    this.shared.downloadFile(file, fileName);
+  }
+
   deleteMus(id: string) {
-    this.musService.deleteMus(id);
+    this.musIdToDelete = id;
+    this.modalMessage = 'Are you sure you want to delete this mus?';
+    this.showModal = true;
   }
 
   playMus(mus: Mus) {
@@ -60,6 +74,35 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   editUserName(): void {
     this.editing = true;
+  }
+
+  acceptModal() {
+    if (this.musIdToDelete) {
+      this.musService.deleteMus(this.musIdToDelete);
+    }
+    this.showModal = false;
+    this.musIdToDelete = '';
+    this.handleToast('Mus deleted successfully');
+  }
+
+  cancelModal() {
+    this.showModal = false;
+    this.modalMessage = '';
+  }
+
+  handleToast(message: string): void {
+    this.showToast = true;
+    this.toastMessage = message;
+    this.closeToastAuto();
+  }
+
+  closeToastAuto() {
+    if (this.toastTimeout) {
+      clearTimeout(this.toastTimeout);
+    }
+    this.toastTimeout = setTimeout(() => {
+      this.showToast = false;
+    }, 8000);
   }
 
   ngOnDestroy(): void {

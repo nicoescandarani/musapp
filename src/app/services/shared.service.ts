@@ -7,10 +7,11 @@ import { Injectable } from '@angular/core';
 })
 export class SharedService {
 
-  playing!: any;
+  playing: any;
   activeNote: BehaviorSubject<number> = new BehaviorSubject<number>(-1);
   isPlaying: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   musPlayingId: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  singleNotePlaying!: HTMLAudioElement;
 
   play(mus: Mus): void {
     let i = 0;
@@ -67,6 +68,17 @@ export class SharedService {
     }, 700);
   }
 
+  playSingleNote(note: string): void {
+    if (!this.playing) {
+      this.singleNotePlaying = new Audio(`./assets/notes/${note}.mp3`);
+      this.singleNotePlaying.play();
+    }
+  }
+
+  stopSingleNote(): void {
+    this.singleNotePlaying.pause();
+  }
+
   stop(): void {
     if (this.playing) {
       clearInterval(this.playing);
@@ -75,6 +87,27 @@ export class SharedService {
       this.activeNote.next(-1);
       this.musPlayingId.next('');
     }
+  }
+
+  generateFile(mus: Mus, type: string, singleType: string, name: string): File {
+    const blob = new Blob([JSON.stringify(mus)], { type: type });
+    const tempFile = new File([blob], `${name}.${singleType}`, { type: type });
+    return tempFile;
+  }
+
+  downloadFile(file: File, name: string): void {
+    if (file) {
+      const url = window.URL.createObjectURL(file);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `${name}.json`;
+      link.click();
+    }
+  }
+
+  generateFileName(name: string): string {
+    const split = name.toLowerCase().split(' ');
+    return `${split.join('_')}_musapp`;
   }
 
   // ! Getters

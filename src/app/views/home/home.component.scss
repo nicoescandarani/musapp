@@ -15,7 +15,7 @@ h1 {
 
   &__input {
     position: relative;
-    border: 1px solid black;
+    border: 1px solid #45414f;
     flex: 1;
     height: 40px;
   }
@@ -42,7 +42,7 @@ h1 {
     height: 100%;
     width: 40px;
     border: none;
-    border-left: 1px solid black;
+    border-left: 1px solid #45414f;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -97,7 +97,7 @@ h3 {
       &:hover {
         svg {
           path {
-            fill: white;
+            fill: #fafafa;
           }
         }
       }
@@ -118,13 +118,13 @@ h3 {
 
 .edit-button {
   position: static !important;
-  border: 1px solid black !important;
+  border: 1px solid #45414f !important;
 
   &:hover {
     background-color: #45414f !important;
     svg {
       path {
-        fill: white;
+        fill: #fafafa;
       }
     }
   }
@@ -134,7 +134,7 @@ h3 {
   background-color: #45414f !important;
   svg {
     path {
-      fill: white;
+      fill: #fafafa;
     }
   }
 }

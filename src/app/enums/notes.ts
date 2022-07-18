@@ -1,15 +1,15 @@
 export enum Notes {
-  A = 'A',
-  B = 'B',
   C = 'C',
+  Db = 'Db',
   D = 'D',
+  Eb = 'Eb',
   E = 'E',
   F = 'F',
-  G = 'G',
-  Bb = 'Bb',
-  Db = 'Db',
-  Eb = 'Eb',
   Gb = 'Gb',
+  G = 'G',
   Ab = 'Ab',
+  A = 'A',
+  Bb = 'Bb',
+  B = 'B',
   C8 = 'C8'
 }

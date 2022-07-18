@@ -14,7 +14,10 @@ ul {
 }
 
 li {
+  max-width: 50px;
+  width: 100%;
   margin-right: 10px;
+  background-color: #45414f;
 
   &:last-of-type {
     margin-right: 0;
@@ -24,8 +27,6 @@ li {
 .select {
   height: 100%;
   width: 100%;
-  // padding: 10px;
-  background-color: #45414f;
 
   button {
     height: 100%;
@@ -35,11 +36,17 @@ li {
     outline: none;
   }
 
+  &__toggle {
+    color: #fafafa;
+    border: none;
+  }
+
   &__options {
     z-index: 2;
-    max-height: 400px;
+    max-height: 340px;
     overflow: auto;
     display: none;
+    background-color: #45414fe0;
 
     &--open {
       display: block;
@@ -48,7 +55,6 @@ li {
 
   &__option {
     padding: 10px;
-    background-color: #45414f;
     color: #fff;
     cursor: pointer;
 
@@ -68,10 +74,13 @@ li {
   padding: 8px 12px;
 }
 
+.notes-wrapper {
+  margin-bottom: 40px;
+}
+
 .note {
   max-width: 50px;
   width: 100%;
-  border: 1px solid black;
   height: 100px;
   display: flex;
   align-items: center;
@@ -89,11 +98,20 @@ li {
 
   &--active {
     background-color: #45414f;
-    color: white;
+    color: #fafafa;
+    border: 1px solid #45414f;
+
+    .select {
+      background-color: #fafafa;
+
+      button {
+        color: #45414f;
+      }
+    }
 
     input {
-      color: white;
-      border: 1px solid white;
+      color: #fafafa;
+      border: 1px solid #fafafa;
     }
   }
 }
@@ -103,4 +121,18 @@ li {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 40px;
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  
+  button {
+    max-width: none;
+    font-size: 20px;
+  }
+}
+
+input[type='file'] {
+  display: none;
 }

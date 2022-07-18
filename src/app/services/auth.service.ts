@@ -3,7 +3,6 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -18,9 +17,14 @@ export class AuthService {
   constructor(private auth: AngularFireAuth) { }
 
   loginLocal(): void {
-    const user = JSON.parse(localStorage.getItem('user') || '');
+    let user = '';
+    if (localStorage.getItem('user') !== null) {
+      user = JSON.parse(localStorage.getItem('user') || '');
+    }
     if (user) {
       this.userName.next(user);
+    } else {
+      this.userName.next('New User');
     }
   }
 

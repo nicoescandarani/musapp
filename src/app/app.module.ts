@@ -11,6 +11,8 @@ import { LoginComponent } from './views/login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { NavComponent } from './components/nav/nav.component';
+import { ToastComponent } from './components/toast/toast.component';
+import { ModalComponent } from './components/modal/modal.component';
 
 
 const config = {
@@ -28,7 +30,9 @@ const config = {
     HomeComponent,
     CreatorComponent,
     LoginComponent,
-    NavComponent
+    NavComponent,
+    ToastComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,

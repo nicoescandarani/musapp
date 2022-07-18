@@ -1,8 +1,8 @@
 <div class="view-wrapper view-wrapper--center">
   <div class="view-content">
+
     <div class="mus-info">
       <h2>Mus Editor</h2>
-    
       <input #title class="title" type="text" [(ngModel)]="mus.title">
     </div>
   
@@ -14,10 +14,9 @@
             <div class="select">
               <button (click)="toggleMenu(i)" class="select__toggle">{{ mus.notes[i] }}</button>
               <div [ngClass]="{'select__options--open': openMenu === i}" class="select__options">
-                <button (click)="changeValue(note, i)" *ngFor="let note of notesKeys" class="select__option">{{ note }}</button>
+                <button #note (click)="changeValue(note, i)" *ngFor="let note of notesKeys" class="select__option">{{ note }}</button>
               </div>
             </div>
-            <!-- <input #input type="text" maxlength="2" [value]="note" [(ngModel)]="mus.notes[i]"> -->
           </div>
         </li>
       </ul>
@@ -27,5 +26,19 @@
       </div>
       <button (click)="save()" title="Save">Save</button>
     </div>
+
+    <div class="spacer"></div>
+
+    <div class="import-mus-wrapper">
+      <div class="input-wrapper">
+        <button (click)="openFile()">Import mus</button>
+      </div>
+      <input #input id="file" type="file" (change)="importMus($event)" accept=".json">
+    </div>
   </div>
+
+  <app-toast
+    *ngIf="showToast"
+    [message]="toastMessage"
+  ></app-toast>
 </div>
