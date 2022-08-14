@@ -21,7 +21,7 @@
         </li>
       </ul>
       <div class="buttons-wrapper">
-        <button [ngClass]="{'note--active': activeNote > -1}" (click)="play()" title="Play">Play</button>
+        <button [disabled]="activeNote > -1" [ngClass]="{'note--active': activeNote > -1}" (click)="play()" title="Play">Play</button>
         <button (click)="stop()" title="Stop">Stop</button>
       </div>
       <button (click)="save()" title="Save">Save</button>

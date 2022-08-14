@@ -12,6 +12,7 @@ export class MusService {
     id: '9',
     title: 'Mus',
     notes: [Notes.C, Notes.D, Notes.E, Notes.F, Notes.G, Notes.A, Notes.B, Notes.C8],
+    notesGroups: [],
     isMus: true
   });
 

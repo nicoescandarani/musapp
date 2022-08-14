@@ -29,6 +29,10 @@ button {
     background-color: #45414f;
     color: #fafafa;
   }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 }
 
 input {

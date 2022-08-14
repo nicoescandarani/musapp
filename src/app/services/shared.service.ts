@@ -9,6 +9,7 @@ export class SharedService {
 
   playing: any;
   activeNote: BehaviorSubject<number> = new BehaviorSubject<number>(-1);
+  activeNoteGroup: BehaviorSubject<number> = new BehaviorSubject<number>(-1);
   isPlaying: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   musPlayingId: BehaviorSubject<string> = new BehaviorSubject<string>('');
   singleNotePlaying!: HTMLAudioElement;
@@ -17,43 +18,13 @@ export class SharedService {
     let i = 0;
     this.isPlaying.next(true);
     this.musPlayingId.next(mus.id);
+    this.playSingleNote(mus.notes[i]);
+    this.activeNote.next(i);
+    i++;
     this.playing = setInterval(() => {
       this.activeNote.next(i);
       let useNote =  mus.notes[i].toUpperCase();
-      let tempNote = '';
       if (mus.notes[i].length > 1) {
-        switch (mus.notes[i]) {
-          case 'Cb':
-            tempNote = 'B';
-            break;
-          case 'C#':
-            tempNote = 'Db';
-            break;
-          case 'D#':
-            tempNote = 'Eb';
-            break;
-          case 'E#':
-            tempNote = 'F';
-            break;
-          case 'Fb':
-            tempNote = 'E';
-            break;
-          case 'F#':
-            tempNote = 'Gb';
-            break;
-          case 'G#':
-            tempNote = 'Ab';
-            break;
-          case 'A#':
-            tempNote = 'Bb';
-            break;
-          case 'B#':
-            tempNote = 'C';
-            break;
-        }
-        if (tempNote) {
-          useNote = tempNote;
-        }
         const split = useNote.toLocaleLowerCase().split('');
         split[0] = split[0].toUpperCase();
         const newNote = split.join('');
@@ -66,6 +37,44 @@ export class SharedService {
         this.stop();
       }
     }, 700);
+  }
+
+  playGroup(mus: Mus): void {
+    let i = 0;
+    this.isPlaying.next(true);
+    this.musPlayingId.next(mus.id);
+    mus.notesGroups.forEach(group => {
+      console.log(group);
+      this.playNotesGroups(group);
+    });
+  }
+
+  playNotesGroups(notes: string[]): void {
+    let i = 0;
+    this.isPlaying.next(true);
+    this.playing = setInterval(() => {
+      this.activeNote.next(i);
+      console.log(notes[i]);
+      
+      const audio = new Audio(`./assets/notes/${notes[i]}.mp3`);
+      audio.play();
+      i++;
+      if (i === notes.length) {
+        this.stop();
+      }
+    }, 700);
+    console.log(this.playing);
+    
+  }
+
+  stopGroups(): void {
+    if (this.playing) {
+      clearInterval(this.playing);
+      this.playing = undefined;
+      this.isPlaying.next(false);
+      this.activeNote.next(-1);
+      this.musPlayingId.next('');
+    }
   }
 
   playSingleNote(note: string): void {

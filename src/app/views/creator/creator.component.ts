@@ -13,12 +13,12 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./creator.component.scss']
 })
 export class CreatorComponent implements OnInit, OnDestroy, AfterViewInit {
-
   muses: Mus[] = [];
   subscriptions: Subscription[] = [];
   mus!: Mus;
   tempMus!: Mus;
   playing!: any;
+  activeNoteGroup = -1;
   activeNote = -1;
   hola: any;
   userName!: string;
@@ -35,7 +35,7 @@ export class CreatorComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(private musService: MusService, private auth: AuthService, private router: Router, private shared: SharedService) { }
 
   ngOnInit(): void {
-    this.mus = this.initMus();
+    this.mus = this.initMusGroup();
     const userNameSubscription$ = this.auth.userName$.subscribe(userName => {
       this.userName = userName;
     });
@@ -43,11 +43,15 @@ export class CreatorComponent implements OnInit, OnDestroy, AfterViewInit {
     const noteSubscription$ = this.shared.activeNote.subscribe(note => {
       this.activeNote = note;
     });
+    this.subscriptions.push(noteSubscription$);
+    const noteGroupSubscription$ = this.shared.activeNoteGroup.subscribe(group => {
+      this.activeNoteGroup = group;
+    });
+    this.subscriptions.push(noteGroupSubscription$);
     const musesSubscription$ = this.musService.muses$.subscribe(muses => {
       this.muses = muses;
     });
     this.subscriptions.push(musesSubscription$);
-    this.subscriptions.push(noteSubscription$);
   }
 
   ngAfterViewInit(): void {
@@ -63,7 +67,21 @@ export class CreatorComponent implements OnInit, OnDestroy, AfterViewInit {
       id: '0',
       title: 'New Mus',
       notes: ['C', 'D', 'E', 'F', 'G', 'A', 'B', 'C8'],
+      notesGroups: [],
       isMus: true
+    };
+  }
+
+  initMusGroup(): Mus {
+    return {
+      id: '0',
+      title: 'New Mus',
+      notes: ['C', 'D', 'E', 'F', 'G', 'A', 'B', 'C8'],
+      notesGroups: [
+        ['C', 'D', 'E', 'F', 'G', 'A', 'B', 'C8'],
+        ['A', 'F', 'G', 'D', 'B', 'C', 'G', 'A']
+      ],
+      isMus: false
     };
   }
 
